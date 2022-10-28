@@ -1,6 +1,6 @@
 export default individualBarChart
 
-function individualBarChart(container) {
+function individualBarChart(data, container) {
     const margin = ({top: 30, right: 50, bottom: 150, left: 50});
     const width = 1250 - margin.left - margin.right,
           height = 600 - margin.top - margin.bottom;
@@ -26,6 +26,24 @@ function individualBarChart(container) {
                     .attr("class", "y-axis-title")
                     .attr('x', -50)
                     .attr('y', -10);
+    var colors = d3.scaleOrdinal(d3.schemeTableau10);
+    var genre = new Set(data.map(function(array){return array.Genre;}));
+    var rectangles = svg.selectAll("rect.label")
+                        .data(genre)
+                        .enter()
+                        .append("rect")
+    rectangles.attr("height", 10)
+              .attr("width", 10)
+              .attr("x", width - 200)
+              .attr("y", (d, i) => (i - 0.4) * 25)
+              .attr("fill", d => colors(d))
+    var labels = svg.selectAll(".text")
+                    .data(genre)
+                    .enter()
+                    .append("text")
+    labels.attr("x", width - 175)
+          .attr("y", (d, i) => i * 25)
+          .text(d => d);
     function update(data) {
         console.log("in update");
         data.sort((b, a) => a.Profitability - b.Profitability);
@@ -46,7 +64,8 @@ function individualBarChart(container) {
             .duration(1000)
             .attr("x", d => xScale(d.Film))
             .attr('y', d => yScale(d.Profitability))
-            .attr('height', d => height - yScale(d.Profitability));
+            .attr('height', d => height - yScale(d.Profitability))
+            .attr('fill', d => colors(d.Genre))
         bars.exit()
             .remove();
         drawX.transition()
