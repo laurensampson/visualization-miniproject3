@@ -49,6 +49,7 @@ function individualBarChart(data, container) {
         data.sort((b, a) => a.Profitability - b.Profitability);
         xScale.domain(data.map(d => d.Film));
         yScale.domain([0, d3.max(data, d => d.Profitability)]);
+        let format = d3.format('.2f');
         const bars = svg.selectAll('.bar')
                         .data(data, d => d.Film);
         bars.enter()
@@ -58,6 +59,26 @@ function individualBarChart(data, container) {
             .attr("y", d => height)
             .attr("height", d => 0)
             .attr("width", xScale.bandwidth())
+      .on("mouseenter", (event, d) => {
+          //console.log('enter');
+                const pos = d3.pointer(event, window);
+                console.log(pos)
+                d3.select(".tooltip")
+                  .style("display", 'block')
+                  .style("left", pos[0] - 5 + "px")
+                  .style("top", pos[1] - 200 + "px")
+                  .html(`Film: ${d.Film}
+                  <p>Genre: ${d.Genre}
+                  <p>Profitability: ${format(d.Profitability)}
+                  <p>Lead Studio: ${d.LeadStudio}
+                  <p>Worldwide Gross: ${format(d.WorldwideGross)}
+                  <\p>`);
+              })
+             .on("mouseleave", (event, d) => {
+          console.log('leave')
+                 d3.select(".tooltip")
+                   .style("display", 'none');
+          })
             .merge(bars)
             .transition()
             .delay((d,i) => i * 150)
@@ -65,7 +86,7 @@ function individualBarChart(data, container) {
             .attr("x", d => xScale(d.Film))
             .attr('y', d => yScale(d.Profitability))
             .attr('height', d => height - yScale(d.Profitability))
-            .attr('fill', d => colors(d.Genre))
+            .attr('fill', d => colors(d.Genre));
         bars.exit()
             .remove();
         drawX.transition()
