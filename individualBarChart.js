@@ -1,9 +1,9 @@
 export default individualBarChart
 
 function individualBarChart(data, container) {
-    const margin = ({top: 30, right: 50, bottom: 150, left: 50});
-    const width = 1250 - margin.left - margin.right,
-          height = 600 - margin.top - margin.bottom;
+    const margin = ({top: 30, right: 25, bottom: 150, left: 25});
+    const width = 1100 - margin.left - margin.right,
+          height = 575 - margin.top - margin.bottom;
     const svg = d3.select(container)
                   .append("svg")
                   .attr("width", width + margin.left + margin.right)
@@ -24,7 +24,7 @@ function individualBarChart(data, container) {
                    .attr("transform", `translate(0, ${height})`)
     var yLabel = svg.append("text")
                     .attr("class", "y-axis-title")
-                    .attr('x', -50)
+                    .attr('x', -25)
                     .attr('y', -10);
     var colors = d3.scaleOrdinal(d3.schemeTableau10);
     var genre = new Set(data.map(function(array){return array.Genre;}));
@@ -45,7 +45,6 @@ function individualBarChart(data, container) {
           .attr("y", (d, i) => i * 25)
           .text(d => d);
     function update(data) {
-        console.log("in update");
         data.sort((b, a) => a.Profitability - b.Profitability);
         xScale.domain(data.map(d => d.Film));
         yScale.domain([0, d3.max(data, d => d.Profitability)]);
@@ -59,26 +58,22 @@ function individualBarChart(data, container) {
             .attr("y", d => height)
             .attr("height", d => 0)
             .attr("width", xScale.bandwidth())
-      .on("mouseenter", (event, d) => {
-          //console.log('enter');
+            .on("mouseenter", (event, d) => {
                 const pos = d3.pointer(event, window);
-                console.log(pos)
                 d3.select(".tooltip")
                   .style("display", 'block')
-                  .style("left", pos[0] - 5 + "px")
+                  .style("left", pos[0] + 50 + "px")
                   .style("top", pos[1] - 200 + "px")
-                  .html(`Film: ${d.Film}
-                  <p>Genre: ${d.Genre}
-                  <p>Profitability: ${format(d.Profitability)}
-                  <p>Lead Studio: ${d.LeadStudio}
-                  <p>Worldwide Gross: ${format(d.WorldwideGross)}
-                  <\p>`);
+                  .html(`<p>Film: ${d.Film}<\p>
+                  <p>Genre: ${d.Genre}<\p>
+                  <p>Profitability: ${format(d.Profitability)}<\p>
+                  <p>Lead Studio: ${d.LeadStudio}<\p>
+                  <p>Worldwide Gross: ${format(d.WorldwideGross)}<\p>`);
               })
              .on("mouseleave", (event, d) => {
-          console.log('leave')
                  d3.select(".tooltip")
                    .style("display", 'none');
-          })
+              })
             .merge(bars)
             .transition()
             .delay((d,i) => i * 150)
