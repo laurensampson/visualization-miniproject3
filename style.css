@@ -54,3 +54,13 @@ label {
   padding-bottom: 1px;
   border-radius: 5%
 }
+.tooltip3{
+  position: fixed;
+  display: none;
+  color: white;
+  background-color: black;
+  opacity: 0.5;
+  padding: 10px;
+  padding-bottom: 1px;
+  border-radius: 5%
+}
