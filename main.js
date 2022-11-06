@@ -19,9 +19,9 @@ d3.csv("./HollywoodsMostProfitableStories.csv", d3.autoType).then(data=>{
     var selected = data.filter(data => data.Year == year);
     thirdChart.update(selected)
 
-    const fourthChart = profitabilityBarChart(data, ".chart-container3");
+    const fourthChart = profitabilityBarChart(data, ".chart-container4");
     var selected = data.filter(data => data.Year == year);
-    thirdChart.update(selected)
+    fourthChart.update(selected)
 
     d3.select('#year').on("change", (event) => {year = d3.select('#year').node().value;
                                                 var selected = data.filter(data => data.Year == year)
