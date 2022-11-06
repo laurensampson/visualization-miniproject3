@@ -1,7 +1,7 @@
 export default individualScatterPlot2
 
 function individualScatterPlot2(data, container) {
-    const margin = ({top: 30, right: 25, bottom: 150, left: 50});
+    const margin = ({top: 30, right: 25, bottom: 25, left: 50});
     const width = 600  - margin.left - margin.right,
           height = 575  - margin.top - margin.bottom;
 
