@@ -1,9 +1,9 @@
 export default individualScatterPlot2
 
 function individualScatterPlot2(data, container) {
-    const margin = ({top: 30, right: 25, bottom: 25, left: 50});
-    const width = 600  - margin.left - margin.right,
-          height = 575  - margin.top - margin.bottom;
+    const margin = ({top: 30, right: 25, bottom: 40, left: 50});
+    const width = 550  - margin.left - margin.right,
+          height = 475  - margin.top - margin.bottom;
 
     const svg = d3.select(container)
                   .append("svg")
@@ -32,7 +32,7 @@ function individualScatterPlot2(data, container) {
 		            .attr('y', height+40);
     var yLabel = svg.append("text")
                     .attr("class", "y-axis-title")
-                    .attr('x', 80)
+                    .attr('x', 110)
                     .attr('y', 35)
                     .attr('text-anchor', 'end')
                     .attr('alignment-baseline', 'baseline')

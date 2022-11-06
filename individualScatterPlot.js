@@ -1,9 +1,9 @@
 export default individualScatterPlot
 
 function individualScatterPlot(data, container) {
-    const margin = ({top: 30, right: 25, bottom: 25, left: 50});
-    const width = 600  - margin.left - margin.right,
-          height = 575  - margin.top - margin.bottom;
+    const margin = ({top: 30, right: 25, bottom: 40, left: 50});
+    const width = 550  - margin.left - margin.right,
+          height = 475  - margin.top - margin.bottom;
 
     const svg = d3.select(container)
                   .append("svg")
