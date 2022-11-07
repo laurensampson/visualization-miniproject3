@@ -1,6 +1,6 @@
-export default individualScatterPlot
+export default individualScatterPlot2
 
-function individualScatterPlot(data, container) {
+function individualScatterPlot2(data, container) {
     const margin = ({top: 30, right: 25, bottom: 40, left: 50});
     const width = 550  - margin.left - margin.right,
           height = 475  - margin.top - margin.bottom;
@@ -32,7 +32,7 @@ function individualScatterPlot(data, container) {
 		            .attr('y', height+40);
     var yLabel = svg.append("text")
                     .attr("class", "y-axis-title")
-                    .attr('x', 80)
+                    .attr('x', 110)
                     .attr('y', 35)
                     .attr('text-anchor', 'end')
                     .attr('alignment-baseline', 'baseline')
@@ -65,9 +65,9 @@ function individualScatterPlot(data, container) {
             scoreMax = d3.max(data, d => d.RottenTomatoes);
         xScale.domain([scoreMin, scoreMax]);
 
-        let profitMin = d3.min(data, d => d.Profitability),
-            profitMax = d3.max(data, d => d.Profitability);
-        yScale.domain([profitMin, profitMax]);
+        let audienceMin = d3.min(data, d => d.AudienceScore),
+            audienceMax = d3.max(data, d => d.AudienceScore);
+        yScale.domain([audienceMin, audienceMax]);
 
         let format = d3.format('.2f');
 
@@ -80,7 +80,7 @@ function individualScatterPlot(data, container) {
             .attr('r', 5)
             .merge(circles)
             .attr("cx", d => xScale(d.RottenTomatoes))
-            .attr("cy", d => yScale(d.Profitability))
+            .attr("cy", d => yScale(d.AudienceScore))
             .attr("fill", d => colors(d.Genre))
             .attr("stroke", '#757575')
             .on("mouseenter", (event, d) => {
@@ -92,12 +92,13 @@ function individualScatterPlot(data, container) {
                   .html(`<p>Film: ${d.Film}<\p>
                   <p>Genre: ${d.Genre}<\p>
                   <p>Profitability: ${format(d.Profitability)}<\p>
+                  <p>Audience Score: ${d.AudienceScore}<\p>
                   <p>Rotten Tomatoes: ${d.RottenTomatoes}<\p>
                   <p>Lead Studio: ${d.LeadStudio}<\p>
                   <p>Worldwide Gross: ${format(d.WorldwideGross)}<\p>`);
               })
              .on("mouseleave", (event, d) => {
-                 d3.select(".tooltip2")
+                 d3.select(".tooltip3")
                    .style("display", 'none');
               })
             .transition()
@@ -119,7 +120,7 @@ function individualScatterPlot(data, container) {
              .call(yAxis);
              
         xLabel.text("Rotten Tomatoes");
-        yLabel.text("Profitability");
+        yLabel.text("Audience Score");
     }
 
   return {
